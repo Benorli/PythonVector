@@ -24,12 +24,38 @@ class Vector(object):
         return self.coordinates == v.coordinates
 
     def __add__(self, other):
-        if isinstance(other, Vector):
-            self.coordinates + other.coordinates
+        if isinstance(other, (Vector, list, tuple)):
+            if isinstance(other, Vector):
+                if len(self.coordinates) == len(other.coordinates):
+                    combined = zip(self.coordinates, other.coordinates)
+                    return tuple([x + y for x, y in combined])
+                else:
+                    raise ValueError('Vectors must have equal dimensions to be added')
+            else:
+                if len(self.coordinates) == len(other):
+                    combined = zip(self.coordinates, other)
+                    return tuple([x + y for x, y in combined])
+                else:
+                    raise ValueError('Vectors must have equal dimensions to be added')
         else:
-            raise TypeError('Vectors may only be added to Vectors')
+            raise TypeError('Vectors may only be added to Vectors, lists or tuples')
 
     def __sub__(self, other):
+        if isinstance(other, (Vector, list, tuple)):
+            if isinstance(other, Vector):
+                if len(self.coordinates) == len(other.coordinates):
+                    combined = zip(self.coordinates, other.coordinates)
+                    return tuple([x - y for x, y in combined])
+                else:
+                    raise ValueError('Vectors must have equal dimensions to be subtracted')
+            else:
+                if len(self.coordinates) == len(other):
+                    combined = zip(self.coordinates, other)
+                    return tuple([x - y for x, y in combined])
+                else:
+                    raise ValueError('Vectors must have equal dimensions to be subtracted')
+        else:
+            raise TypeError('Vectors may only be subtracted from Vectors, lists or tuples')
 
     def get_magnitude(self):
         self.magnitude = sum(map(lambda x: x**2, self.coordinates))**0.5
