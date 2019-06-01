@@ -57,6 +57,12 @@ class Vector(object):
         else:
             raise TypeError('Vectors may only be subtracted from Vectors, lists or tuples')
 
+    def scalar_multiply(self, scalar):
+        if isinstance(scalar, (int, float, complex)):
+            return tuple(map(lambda x: x*scalar, self.coordinates))
+        else:
+            raise TypeError('Scalar numeric data type required')
+
     def get_magnitude(self):
         self.magnitude = sum(map(lambda x: x**2, self.coordinates))**0.5
         return self.magnitude
